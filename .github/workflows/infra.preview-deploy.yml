@@ -41,7 +41,7 @@ jobs:
               uses: aws-actions/configure-aws-credentials@v4
               with:
                 aws-region: ${{ env.AWS_REGION }}
-                role-to-assume: ${{ secrets.AWS_IAM_ROLO_ARN }}
+                role-to-assume: "arn:aws:iam::381492129342:role/gha-terraform-role"
             - name: Terraform Init
               run: |
-                terraform init -no-colorｓ
+                terraform init -no-color
