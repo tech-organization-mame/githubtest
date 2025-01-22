@@ -2,8 +2,8 @@
 # VPC
 # ---------------------------------------------
 resource "aws_vpc" "vpc" {
-  cidr_blockxx                       = "192.168.0.0/20"
-  instance_tenancy                 = "default"
+  cidr_block                       = "192.168.0.0/20"
+  instance_tenancys                = "default"
   enable_dns_support               = true
   enable_dns_hostnames             = true
   assign_generated_ipv6_cidr_block = false
