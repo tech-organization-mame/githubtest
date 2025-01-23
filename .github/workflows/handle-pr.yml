@@ -6,7 +6,7 @@ on:
 
 jobs:
   call-repo1-workflow:
-    uses: ./.github/workflows/export-file.yml@main
+    uses: ./.github/workflows/export-file.yml
 
   call-repo2-workflow:
     needs: call-repo1-workflow
