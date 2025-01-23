@@ -1,0 +1,20 @@
+name: Sample                        
+on: [push, workflow_dispatch]                              
+
+jobs:                                  
+  sample:                               
+    runs-on: ubuntu-latest              
+    steps:                              
+      - run: echo "Hello GitHub Action"
+
+  test:
+    needs: [sample]             # sampleのジョブが終了したら、このジョブが動く
+    runs-on: ubuntu-latest              
+    steps:                              
+      - run: echo "Start Test"
+                                 
+  time:
+    needs: [sample, test]       # sampleとtestのジョブが終了したら、このジョブが動く
+    runs-on: ubuntu-latest              
+    steps:                              
+      - run: echo datetime
