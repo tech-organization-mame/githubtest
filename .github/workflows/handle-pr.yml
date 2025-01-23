@@ -27,7 +27,7 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"body":"### Comparison Result\n✅ The file contents are identical!"}' \
-            "${{ github.event.pull_request.url }}/comments"
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
 
       - name: Post failure message to PR
         if: failure()
@@ -38,4 +38,4 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"body":"### Comparison Result\n❌ The file contents are different!"}' \
-            "${{ github.event.pull_request.url }}/comments"
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
