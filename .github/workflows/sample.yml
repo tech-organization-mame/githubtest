@@ -1,5 +1,5 @@
 name: Sample                        
-on: [push, workflow_dispatch]                              
+on: [push,workflow_dispatch]                              
 
 jobs:                                  
   sample:                               
@@ -14,7 +14,7 @@ jobs:
       - run: echo "Start Test"
                                  
   time:
-    needs: [sample, test]       # sampleとtestのジョブが終了したら、このジョブが動く
+    # needs: []       # needsを設定していないため、ワークフロー開始時に「sample」と同時に動く
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo datetime
