@@ -10,11 +10,11 @@ jobs:
     steps:
       - name: Call Repository 1 Workflow
         id: repo1
-        uses: ./.github/workflows/export-file.yml
+        uses: ./.github/workflows/export-file.yml@main
 
       - name: Call Repository 2 Workflow
         id: repo2
-        uses: ./.github/workflows/check-file.yml
+        uses: tech-organization-mame/test-repo/.github/workflows/check-file.yml@main
         with:
           file_content_repo1: ${{ steps.repo1.outputs.file_content }}
 
