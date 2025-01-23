@@ -7,14 +7,26 @@ jobs:
     steps:                              
       - run: echo "Hello GitHub Action"
 
+  checkout:
+    needs: [sample]                 # sampleのジョブが終了したら、このジョブが動く
+    runs-on: ubuntu-latest              
+    steps:                              
+      - uses: actions/checkout@v3
+
+  start:
+    needs: [sample]                 # sampleのジョブが終了したら、このジョブが動く
+    runs-on: ubuntu-latest              
+    steps:                              
+      - run: echo "Start Test"
+
   test:
-    needs: [sample]             # sampleのジョブが終了したら、このジョブが動く
+    needs: [checkout, start]        # sampleのジョブが終了したら、このジョブが動く
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo "Start Test"
                                  
-  time:
-    # needs: []       # needsを設定していないため、ワークフロー開始時に「sample」と同時に動く
+  sendChat:
+    # needs: []                     # needsを設定していないため、ワークフロー開始時に「sample」と同時に動く
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo datetime
