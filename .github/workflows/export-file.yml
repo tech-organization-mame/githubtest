@@ -1,28 +1,26 @@
 # .github/workflows/export-file.yml
-name: Export File Content
+name: Export File
 
 on:
   workflow_call:
     outputs:
-      file_content:
-        description: "Content of the file from Repository 1"
-        value: ${{ jobs.export.outputs.file_content }}
+      data_content:
+        description: "Content of data.txt"
+        value: ${{ jobs.export.outputs.data }}
 
 jobs:
   export:
     runs-on: ubuntu-latest
     outputs:
-      file_content: ${{ steps.read_file.outputs.content }}
+      data: ${{ steps.get_content.outputs.result }}
     steps:
-      - name: Check out repository
+      - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Read file content
-        id: read_file
+      - name: Get content
+        id: get_content
         run: |
-          if [ -f "data.txt" ]; then
-            content=$(cat data.txt)
+          if [ -f data.txt ]; then
+            echo "result=$(cat data.txt)" >> $GITHUB_OUTPUT
           else
-            content="File not found"
-          fi
-          echo "content=$content" >> $GITHUB_OUTPUT
+            echo "result=No data" >> $GITHUB_OUTPUT
