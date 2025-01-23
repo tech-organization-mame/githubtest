@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Call Repository 1 Workflow
         id: repo1
-        uses: /.github/workflows/export-file.yml@main
+        uses: ./.github/workflows/export-file.yml@main
 
       - name: Call Repository 2 Workflow
         id: repo2
