@@ -5,19 +5,19 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  compare_files:
+  call-repo1-workflow:
+    uses: ./.github/workflows/export-file.yml
+
+  call-repo2-workflow:
+    needs: call-repo1-workflow
+    uses: tech-organization-mame/test-repo/.github/workflows/check-file.yml@main
+    with:
+      file_content_repo1: ${{ needs.call-repo1-workflow.outputs.file_content }}
+
+  post-results:
+    needs: call-repo2-workflow
     runs-on: ubuntu-latest
     steps:
-      - name: Call Repository 1 Workflow
-        id: repo1
-        uses: ./.github/workflows/export-file.yml@main
-
-      - name: Call Repository 2 Workflow
-        id: repo2
-        uses: tech-organization-mame/test-repo/.github/workflows/check-file.yml@main
-        with:
-          file_content_repo1: ${{ steps.repo1.outputs.file_content }}
-
       - name: Post success message to PR
         if: success()
         env:
@@ -27,7 +27,7 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"body":"### Comparison Result\n✅ The file contents are identical!"}' \
-            "${{ github.event.pull_request.url }}/comments"
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
 
       - name: Post failure message to PR
         if: failure()
@@ -38,4 +38,4 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{"body":"### Comparison Result\n❌ The file contents are different!"}' \
-            "${{ github.event.pull_request.url }}/comments"
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
