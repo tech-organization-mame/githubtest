@@ -2,30 +2,30 @@ name: Sample
 on: [push,workflow_dispatch]                              
 
 jobs:                                  
-  sample:                               
+  sample(1):                               
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo "Hello GitHub Action"
 
-  checkout:
+  checkout(2):
     needs: [sample]                 # sampleのジョブが終了したら、このジョブが動く
     runs-on: ubuntu-latest              
     steps:                              
       - uses: actions/checkout@v3
 
-  start:
+  start(2):
     needs: [sample]                 # sampleのジョブが終了したら、このジョブが動く
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo "Start Test"
 
-  test:
+  test(3):
     needs: [checkout, start]        # sampleのジョブが終了したら、このジョブが動く
     runs-on: ubuntu-latest              
     steps:                              
       - run: echo "Start Test"
                                  
-  sendChat:
+  sendChat(1):
     # needs: []                     # needsを設定していないため、ワークフロー開始時に「sample」と同時に動く
     runs-on: ubuntu-latest              
     steps:                              
