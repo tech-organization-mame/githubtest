@@ -1,0 +1,41 @@
+name: Handle PR and Compare Files
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  call-repo1-workflow:
+    uses: ./.github/workflows/export-file.yml
+
+  call-repo2-workflow:
+    needs: call-repo1-workflow
+    uses: tech-organization-mame/test-repo/.github/workflows/check-file.yml@main
+    with:
+      file_content_repo1: ${{ needs.call-repo1-workflow.outputs.file_content }}
+
+  post-results:
+    needs: call-repo2-workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post success message to PR
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"body":"### Comparison Result\n✅ The file contents are identical!"}' \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+
+      - name: Post failure message to PR
+        if: failure()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -s -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{"body":"### Comparison Result\n❌ The file contents are different!"}' \
+            "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
