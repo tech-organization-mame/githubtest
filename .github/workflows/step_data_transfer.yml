@@ -1,0 +1,13 @@
+name: Step Data Trancfer                     
+on: [workflow_dispatch]                              
+
+jobs:                                  
+  step_data_transfer:
+    runs-on: ubunt-latest
+    steps:
+      - id : send
+        run: echo "result=Hello GitHubAction" >> "${GITHUB_OUTPUT}"
+      - env:
+          RESULT: ${{steps.send.outputs.result}}
+        id : receive
+        run: echo "${RESULT}"
