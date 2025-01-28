@@ -1,9 +1,9 @@
-name: Step Data Trancfer                     
+name: Step Data Transfer                     
 on: [workflow_dispatch]                              
 
 jobs:                                  
   step_data_transfer:
-    runs-on: ubunt-latest
+    runs-on: ubuntu-latest
     steps:
       - id : send
         run: echo "result=Hello GitHubAction" >> "${GITHUB_OUTPUT}"
