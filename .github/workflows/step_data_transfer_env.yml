@@ -10,4 +10,4 @@ jobs:
         run: echo "RESULT=Hello GitHubAction Env" >> "${GITHUB_ENV}"
       - id : receive_env
         name: receive_env
-        run: echo ${RESULT}
+        run: echo "${RESULT}"
