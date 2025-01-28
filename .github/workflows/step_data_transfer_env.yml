@@ -8,4 +8,4 @@ jobs:
       - id : send_env
         run: echo "Result=Hello GitHubAction Env" >> "${GITHUB_ENV}"
       - id : receive_env
-        run: echo "${RESULT}"
+        run: echo ${RESULT}
