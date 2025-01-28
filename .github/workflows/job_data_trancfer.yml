@@ -1,0 +1,31 @@
+name: Job Data Transfer         
+on: [workflow_dispatch]                              
+
+jobs:                                  
+  sample_1:                               
+    runs-on: ubuntu-latest              
+    steps:                              
+      - run: echo "Hello GitHub Action"
+
+  start_2 :
+    needs: [sample_1]
+    runs-on: ubuntu-latest              
+    steps:
+      - id: exitcode                              
+        run: echo "result=0" >> "${GITHUB_OUTPUT}"
+    outputs:
+      result: ${{ steps.exitcode.outputs.result }}    # ジョブレベルの出力値
+
+  test_3 :
+    needs: [start_2]
+    runs-on: ubuntu-latest              
+    steps:
+      - id: run_test
+        env: 
+          RESULT: ${{ needs.start_2.outputs.result }}  # 前のジョブからデータを受取り、環境変数にセット
+        run: |
+          if [ "$RESULT" -eq 0 ]; then
+            echo "start"
+          else
+            echo "stop"
+          fi
