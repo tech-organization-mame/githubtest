@@ -25,7 +25,7 @@ jobs:
           RESULT: ${{ needs.start_2.outputs.result }}  # 前のジョブからデータを受取り、環境変数にセット
         run: |
           if [ "$RESULT" -eq 0 ]; then
-            echo "start"
+            echo "start ${RESULT}"
           else
             echo "stop"
           fi
