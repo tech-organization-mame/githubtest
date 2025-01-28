@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id : send_env
-        run: echo "Result=Hello GitHubAction Env" >> "${GITHUB_ENV}"
+        name: set_env
+        run: echo "RESULT=Hello GitHubAction Env" >> "${GITHUB_ENV}"
       - id : receive_env
+        name: receive_env
         run: echo ${RESULT}
