@@ -1,27 +1,27 @@
-name: Export Data
+  name: Export Data
 
-on:
-  workflow_call:
-    outputs:
-      data_content:
-        description: "Content from data.txt"
-        value: ${{ jobs.export_data.outputs.data }}
+  on:
+    workflow_call:
+      outputs:
+        data_content:
+          description: "Content from data.txt"
+          value: ${{ jobs.export_data.outputs.data }}
 
-jobs:
-  export_data:
-    runs-on: ubuntu-latest
-    outputs:
-      data: ${{ steps.get_data.outputs.result }}
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v3
+  jobs:
+    export_data:
+      runs-on: ubuntu-latest
+      outputs:
+        data: ${{ steps.get_data.outputs.result }}
+      steps:
+        - name: Check out code
+          uses: actions/checkout@v3
 
-      - name: Read data
-        id: get_data
-        run: |
-          if [ -f data.txt ]; then
-            content=$(cat data.txt)
-          else
-            content="No data"
-          fi
-          echo "result=$content" >> $GITHUB_OUTPUT
+        - name: Read data
+          id: get_data
+          run: |
+            if [ -f data.txt ]; then
+              content=$(cat data.txt)
+            else
+              content="No data"
+            fi
+            echo "result=$content" >> $GITHUB_OUTPUT

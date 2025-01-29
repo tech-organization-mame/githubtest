@@ -1,0 +1,28 @@
+# repositoryB-call-workflow
+name: Caller Workflow
+
+on:
+  pull_request
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  read-file-job:
+    runs-on: ubuntu-latest
+    outputs:
+          file_contents: ${{ steps.read_file.outputs.file_content }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Read file content
+        id: read_file
+        run: echo "file_content=$(cat data.txt)" >> "$GITHUB_OUTPUT"
+
+  call-workflow:
+    needs: read-file-job
+    uses: organization-name/test-repo/.github/workflows/reusable-workflow.yml@main
+    with:
+      name: ${{ needs.read-file-job.outputs.file_content }}
