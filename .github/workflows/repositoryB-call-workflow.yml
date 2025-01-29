@@ -23,6 +23,6 @@ jobs:
 
   call-workflow:
     needs: read-file-job
-    uses: organization-name/test-repo/.github/workflows/reusable-workflow.yml@main
+    uses: organization-mame/.github/workflows/reusable-workflow.yml@main
     with:
       name: ${{ needs.read-file-job.outputs.file_content }}
