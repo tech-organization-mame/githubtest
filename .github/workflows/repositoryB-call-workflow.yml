@@ -25,4 +25,4 @@ jobs:
     needs: read-file-job
     uses: tech-organization-mame/test-repo/.github/workflows/reusable-workflow.yml@main
     with:
-      name: ${{ needs.read-file-job.outputs.file_content }}
+      name: ${{ needs.read-file-job.outputs.file_contents }}
